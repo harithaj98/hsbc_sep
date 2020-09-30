@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script>
+	function validate(){
+		
+		var v= document.getElementById("s1").value;
+		
+		var x= new XMLHttpRequest();
+		x.open("GET","source.jsp?source="+v,true);
+		x.send();
+		
+		x.onreadystatechange=function(){
+			if(x.readyState==4){
+				var list = x.responseText.split(',');
+				var options = '';
+				for (var i = 0; i < list.length; i++) {
+				  options += '<option value="' + list[i] + '" />';
+				}
+				document.getElementById("source").innerHTML=options;
+			}
+	}
+	}
+	
+function loadcountry(){
+		
+		var x=new XMLHttpRequest();
+		//step 2 how xhr will open connection with server
+		x.open("GET","Country.jsp",true);
+		
+		//step 3 how xhr will send request
+		x.send();
+		
+		//step 4 how xhr will get response from server
+		//state={0,1,2,3,4}
+		
+		x.onreadystatechange=function(){
+			if(x.readyState==4){
+				var list = x.responseText.split(',');
+				document.getElementById("cou").innerHTML=list;
+				
+			}
+		}
+		
+	}
+
+function loadstate(){
+	
+	var c=document.getElementById("cc").value;
+	
+		var x=new XMLHttpRequest();
+		//step 2 how xhr will open connection with server
+		x.open("GET","State.jsp?countryname="+c,true);
+		
+		//step 3 how xhr will send request
+		x.send();
+		
+		//step 4 how xhr will get response from server
+		//state={0,1,2,3,4}
+		
+		x.onreadystatechange=function(){
+				if(x.readyState==4){
+					var list = x.responseText.split(',');
+					document.getElementById("state").innerHTML=list;
+					
+				}
+				
+			}
+		}
+		
+	
+function loadcity(){
+	
+	var c=document.getElementById("ss").value;
+	
+		var x=new XMLHttpRequest();
+		//step 2 how xhr will open connection with server
+		x.open("GET","City.jsp?statename="+c,true);
+		
+		//step 3 how xhr will send request
+		x.send();
+		
+		//step 4 how xhr will get response from server
+		//state={0,1,2,3,4}
+		
+		x.onreadystatechange=function(){
+			if(x.readyState==4){
+				var list = x.responseText.split(',');
+				document.getElementById("city").innerHTML=list;
+				
+			}
+		}
+		
+	}
+
+
+
+</script>
+</head>
+<body onload="loadcountry()">
+	<p align="center">Registration Page</p>
+	<center>
+	<form action="Country.jsp" method="post">
+		
+		Country :<div id="cou"></div>
+		State:	<br> <div id="state"></div>
+		City: 	<br> <div id="city"></div>
+		
+		<input type=submit value=Register id=bb> <br>
+
+</body>
+</html>

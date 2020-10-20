@@ -6,7 +6,6 @@ import java.util.Map;
 import com.instagram.dao.InstagramDAO;
 import com.instagram.dao.InstagramDAOInterface;
 import com.instagram.entity.InstagramUser;
-import com.instagram.utility.DaoFactory;
 import com.instagram.utility.InstagramException;
 
 public class InstagramService implements InstagramServiceInterface {
@@ -14,7 +13,7 @@ public class InstagramService implements InstagramServiceInterface {
 	private InstagramDAOInterface id;
 	
 	public InstagramService() {
-		id= DaoFactory.createObject("daoadmin");
+		id=new InstagramDAO();
 	}
 
 	public int createprofileService(InstagramUser iu)throws Exception {
@@ -39,8 +38,15 @@ public class InstagramService implements InstagramServiceInterface {
 
 	}
 
-	public List<InstagramUser> searchprofileService(InstagramUser iu) throws InstagramException{
-		return id.searchProfileDAO(iu);
+	public List<InstagramUser> searchprofileService(InstagramUser iu)throws InstagramException {
+		List<InstagramUser> ll=null;
+		try {
+			ll=id.searchProfileDAO(iu);
+		}
+		catch(InstagramException e) {
+			throw new InstagramException("");
+		}
+		return ll;
 
 	}
 

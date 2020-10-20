@@ -8,19 +8,20 @@ import java.util.List;
 import java.util.Map;
 
 import com.instagram.entity.InstagramUser;
-import com.instagram.entity.SortBy_Address;
-import com.instagram.entity.SortBy_Name;
 import com.instagram.service.InstagramService;
 import com.instagram.service.InstagramServiceInterface;
 import com.instagram.utility.InstagramException;
 import com.instagram.utility.ServiceFactory;
+import com.instagram.utility.SortBy_Address;
+import com.instagram.utility.SortBy_Email;
 
-public class InstagramController implements InstagramControllerInterface {
+public class InstagramController  {
 	
 	private InstagramServiceInterface is;
 	
 	public InstagramController() {
-		is= ServiceFactory.createObject("adminservice");
+		//is=new InstagramService();
+		is=ServiceFactory.createObject("adminservice");
 	}
 
 	public void createProfile() throws Exception{
@@ -156,16 +157,19 @@ public class InstagramController implements InstagramControllerInterface {
 		}
 		catch (InstagramException e) {
 			// TODO Auto-generated catch block
-			System.out.println("custom exception occured "+e.uu());
+			System.out.println("custom exception occured "+e);
 		}
 
 	}
 
 	public void viewAllProfile() {
 		List<InstagramUser> uu=is.viewallprofileService();
+		
+		Collections.sort(uu, new SortBy_Email());
+		
+		
 		System.out.println(uu.size()+"  users found");
 		
-		Collections.sort(uu, new SortBy_Name());
 		for(InstagramUser u:uu) {
 			System.out.println("****************************************");
 			System.out.println("Name is : "+u.getName());
@@ -219,7 +223,7 @@ public class InstagramController implements InstagramControllerInterface {
 		
 	}
 
-	@Override
+	
 	public void userdetailwithhistory() {
 		Map<String, List<InstagramUser>> uu=is.userdetailwithhistoryservice();
 		

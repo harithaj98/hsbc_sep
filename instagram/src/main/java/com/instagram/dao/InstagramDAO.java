@@ -1,9 +1,5 @@
 package com.instagram.dao;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,23 +14,30 @@ import com.instagram.entity.InstagramUser;
 import com.instagram.utility.InstagramException;
 
 public class InstagramDAO implements InstagramDAOInterface {
+	private List<InstagramUser> ll=null;
+	public InstagramDAO() {
+		ll=new ArrayList<InstagramUser>();
+		System.out.println(adminpath);
+		
+	}
 
 	public int createProfileDAO(InstagramUser iu)throws Exception {
+		ll.add(iu);
 		
 		int i=0;
 		
 		//step 1 load driver
-		/*Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 		
 		//Class.forName("oracle.jdbc.driver.OracleDriver");
 		//Class.forName("com.mysql.jdbc.Driver");
 		
 		//step 2 create connection with database
-		Connection con=DriverManager.getConnection("jdbc:derby:c:/firstdb1;create=true","haritha","hari");
+		Connection con=DriverManager.getConnection("jdbc:derby:d:/firstdb1;create=true","rajesh","rajesh");
 		
 		
 		//step 3 create query
-		PreparedStatement ps=con.prepareStatement("insert into InstaUser values(?,?,?,?)");
+		PreparedStatement ps=con.prepareStatement("insert into instagramuser values(?,?,?,?)");
 		ps.setString(1, iu.getName());
 		ps.setString(2, iu.getPassword());
 		ps.setString(3, iu.getEmail());
@@ -42,51 +45,7 @@ public class InstagramDAO implements InstagramDAOInterface {
 		
 		//step 4 executeQuery
 		i=ps.executeUpdate();
-		*/
-		int c=0;
-		char input;
-		File f= new File("f:/hsbc_file/two.txt");
-		FileOutputStream out=new FileOutputStream(f);
-		
-		String n= iu.getName();
-		
-		for(int j=0;j<n.length();j++)
-		{
-			out.write(n.charAt(j));
-		}
-			out.write(' ');
-			
-			
-		String pass= iu.getPassword();
-		for(int j=0;j<pass.length();j++)
-		{
-			out.write(pass.charAt(j));
-		}
-		
-		out.write(' ');
-		
-		String email= iu.getEmail();
-		for(int j=0;j<email.length();j++)
-		{
-			out.write(email.charAt(j));
-		}
-		out.write(' ');
-		
-		String addr= iu.getAddress();
-		for(int j=0;j<addr.length();j++)
-		{
-			out.write(addr.charAt(j));
-			i=1;
-		}
-		
-		System.out.println("details of created profile are");
-		FileInputStream in= new FileInputStream(f);
-		while(!((c=in.read())==-1)){
-			input= (char)c;
-			System.out.print(input);
-		}
-		out.close();
-		in.close();
+						
 		return i;
 
 	}
@@ -105,8 +64,8 @@ public class InstagramDAO implements InstagramDAOInterface {
 		List<InstagramUser> ll=new ArrayList<InstagramUser>();
 		try {
 		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-		Connection con=DriverManager.getConnection("jdbc:derby:c:/firstdb1;create=true","haritha","hari");
-		PreparedStatement ps=con.prepareStatement("select * from InstaUser where name=?");
+		Connection con=DriverManager.getConnection("jdbc:derby:d:/firstdb1;create=true","rajesh","rajesh");
+		PreparedStatement ps=con.prepareStatement("select * from instagramuser where name=?");
 		ps.setString(1, iu.getName());
 		
 		ResultSet res=ps.executeQuery();
@@ -123,7 +82,9 @@ public class InstagramDAO implements InstagramDAOInterface {
 		
 		if(ll.size()==0) {
 			throw new InstagramException("");
+			
 		}
+		
 		
 		}
 		catch(ClassNotFoundException|SQLException ee) {
@@ -139,8 +100,8 @@ public class InstagramDAO implements InstagramDAOInterface {
 		Connection con=null;
 		try {
 		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-		con=DriverManager.getConnection("jdbc:derby:c:/firstdb1;create=true","haritha","hari");
-		PreparedStatement ps=con.prepareStatement("select * from InstaUser");
+		con=DriverManager.getConnection("jdbc:derby:d:/firstdb1;create=true","rajesh","rajesh");
+		PreparedStatement ps=con.prepareStatement("select * from instagramuser");
 				
 		ResultSet res=ps.executeQuery();
 		
@@ -174,8 +135,8 @@ public class InstagramDAO implements InstagramDAOInterface {
 
 	public InstagramUser viewProfileDAO(InstagramUser iu) throws Exception{
 		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-		Connection con=DriverManager.getConnection("jdbc:derby:c:/firstdb1;create=true","haritha","hari");
-		PreparedStatement ps=con.prepareStatement("select * from InstaUser where name=?");
+		Connection con=DriverManager.getConnection("jdbc:derby:d:/firstdb1;create=true","rajesh","rajesh");
+		PreparedStatement ps=con.prepareStatement("select * from instagramuser where name=?");
 		ps.setString(1, iu.getName());
 		
 		ResultSet res=ps.executeQuery();
@@ -191,16 +152,14 @@ public class InstagramDAO implements InstagramDAOInterface {
 			uu.setEmail(res.getString(3));
 			uu.setAddress(res.getString(4));
 		}
-		
-		
 		return uu;
 		
 	}
 
 	public int editprofilebynamedao(InstagramUser iu) throws Exception {
 		Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-		Connection con=DriverManager.getConnection("jdbc:derby:c:/firstdb1;create=true","haritha","hari");
-		PreparedStatement ps=con.prepareStatement("update InstaUser set password=? where name=?");
+		Connection con=DriverManager.getConnection("jdbc:derby:d:/firstdb1;create=true","rajesh","rajesh");
+		PreparedStatement ps=con.prepareStatement("update instagramuser set password=? where name=?");
 		ps.setString(1, iu.getPassword());
 		ps.setString(2, iu.getName());
 		
